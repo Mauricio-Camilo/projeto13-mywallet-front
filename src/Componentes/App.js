@@ -11,7 +11,6 @@ import TelaSaida from "./TelaSaida";
 function App () {
     return (
         <>
-        <h1>Minha aplicação top!</h1>
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<TelaLogin/>}/>

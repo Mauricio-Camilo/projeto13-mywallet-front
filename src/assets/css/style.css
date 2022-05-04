@@ -1,11 +1,17 @@
 * {
     box-sizing: border-box;
-
+    --cor-fundo: #8c11BE;
+    --cor-botao: #A328D6;
+    --cor-vermelho: #C70000;
+    --cor-verde: #03AC00;
 }
 
 body {
     /* font-family: 'Saira Stencil One', cursive; */
     font-family: 'Raleway', sans-serif;
+    background-color: var(--cor-fundo);
+    max-width: 375px;
+    max-height: 667px;
 }
 
 
