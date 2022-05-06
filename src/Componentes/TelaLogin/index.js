@@ -1,16 +1,46 @@
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { ThreeDots } from 'react-loader-spinner';
 
 function TelaLogin() {
+
+    const loading = <ThreeDots color="#FFFFFF" />;
+
+    const navigate = useNavigate();
+
+    const [login, setLogin] = useState("");
+    const [senha, setSenha] = useState("");
+
+    const [entrar, setEntrar] = useState("Entrar");
+
+    function fazerLogin (event) {
+        event.preventDefault();
+        setEntrar(loading);
+        console.log("Fui clicado");
+        const obj = {
+            login,
+            senha
+        }
+        console.log(obj);
+    }
+
     return (
         <Container>
             <Title>MyWallet</Title>
-            <Inputs>
-                <Input type="text" placeholder="E-mail"></Input>
-                <Input type="password" placeholder="Senha"></Input>
-                <Login>Entrar</Login>
-            </Inputs>
-            <Hiperlink>Primeira vez? Cadastre-se!</Hiperlink>
-
+            <form onSubmit={fazerLogin}>
+                <Inputs>
+                    <Input type="text" placeholder="E-mail" required
+                        onChange={(e) => setLogin(e.target.value)} value={login}>
+                    </Input>
+                    <Input type="password" placeholder="Senha" required
+                        onChange={(e) => setSenha(e.target.value)} value={senha}>
+                    </Input>
+                    <Login type="submit">{entrar}</Login>
+                </Inputs>
+            </form>
+            <Hiperlink onClick={() => navigate("/cadastro")}>Primeira vez? Cadastre-se!</Hiperlink>
         </Container>
     )
 }
@@ -48,6 +78,9 @@ const Login = styled.button`
     width: 326px;
     height: 46px;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: var(--cor-botao);
 `
 const Hiperlink = styled.p`

@@ -13,7 +13,7 @@ function TelaCadastro() {
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
-    const [confirmação, setConfirmação] = useState("");
+    const [senha2, setSenha2] = useState("");
 
     // Estado usado para colocar a animação no login e ativar a mudança
     const [cadastrar, setCadastrar] = useState("Cadastrar");
@@ -31,16 +31,25 @@ function TelaCadastro() {
             nome,
             email,
             senha,
-            confirmação
+            senha2,
         });
         promise.then(response => {
-            navigate("/")
+            navigate("/");
         })
         promise.catch(response => {
             console.log("A requisição deu ruim");
+            zerarInputs();
+            
         })
     };
 
+    function zerarInputs () {
+        setCadastrar("Cadastrar")
+        setNome("");
+        setEmail("");
+        setSenha("");
+        setSenha2("");
+    }
 
     return (
         <Container>
@@ -57,13 +66,13 @@ function TelaCadastro() {
                         onChange={(e) => setSenha(e.target.value)} value={senha}>
                     </Input>
                     <Input type="password" placeholder="Confirme a senha" 
-                        onChange={(e) => setConfirmação(e.target.value)} value={confirmação}>
+                        onChange={(e) => setSenha2(e.target.value)} value={senha2}>
                     </Input>
                     <SignUp type="submit">
                         {cadastrar}</SignUp>
                 </Inputs>
             </form>
-            <Hiperlink>Já tem uma conta? Entre agora!</Hiperlink>
+            <Hiperlink onClick={() => navigate("/")}>Já tem uma conta? Entre agora!</Hiperlink>
 
         </Container>
     )
