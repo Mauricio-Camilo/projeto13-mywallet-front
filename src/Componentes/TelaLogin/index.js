@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ThreeDots } from 'react-loader-spinner';
 
 function TelaLogin() {
+
+    const { setToken } = useContext(UserContext);
 
     const loading = <ThreeDots color="#FFFFFF" />;
 
@@ -27,6 +30,8 @@ function TelaLogin() {
         promise.then(response => {
             const {data} = response;
             console.log(data);
+            setToken(data.token);
+            localStorage.setItem("token", data.token);
             // navigate("/registros");
 
         })
