@@ -25,7 +25,10 @@ function TelaLogin() {
             senha
         });
         promise.then(response => {
-            navigate("/registros")
+            const {data} = response;
+            console.log(data);
+            // navigate("/registros");
+
         })
         promise.catch(error => {
             console.log("A requisição deu ruim");
@@ -103,6 +106,5 @@ const Hiperlink = styled.p`
     color: #FFFFFF;
     margin-top: 36px;
 `
-
 
 export default TelaLogin;
