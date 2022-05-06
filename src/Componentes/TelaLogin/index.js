@@ -4,13 +4,11 @@ function TelaLogin() {
     return (
         <Container>
             <Title>MyWallet</Title>
-            <Input>
-                <input type="text" placeholder="E-mail">
-                </input>
-                <input type="text" placeholder="Senha">
-                </input>
-                <Login >Entrar</Login>
-            </Input>
+            <Inputs>
+                <Input type="text" placeholder="E-mail"></Input>
+                <Input type="password" placeholder="Senha"></Input>
+                <Login>Entrar</Login>
+            </Inputs>
             <Hiperlink>Primeira vez? Cadastre-se!</Hiperlink>
 
         </Container>
@@ -29,21 +27,20 @@ const Title = styled.h1`
     margin-top: 159px;
     margin-bottom: 24px;
 `
-
-const Input = styled.div`
+const Inputs = styled.div`
     display: flex;
     flex-direction: column;
     gap: 13px;
     padding-left: 25px;
+`
 
-
-    input {
+const Input = styled.input`
         width: 326px;
         height: 58px;
         border-radius: 5px;
         padding-left: 15px;
-    }
 `
+
 const Login = styled.button`
     font-size: 20px;
     font-weight: 700;
