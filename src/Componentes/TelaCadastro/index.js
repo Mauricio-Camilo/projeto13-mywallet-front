@@ -39,7 +39,6 @@ function TelaCadastro() {
         promise.catch(response => {
             console.log("A requisição deu ruim");
             zerarInputs();
-            
         })
     };
 

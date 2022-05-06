@@ -8,6 +8,8 @@ function TelaLogin() {
 
     const loading = <ThreeDots color="#FFFFFF" />;
 
+    const servidor = "http://localhost:5000/"
+
     const navigate = useNavigate();
 
     const [login, setLogin] = useState("");
@@ -18,12 +20,23 @@ function TelaLogin() {
     function fazerLogin (event) {
         event.preventDefault();
         setEntrar(loading);
-        console.log("Fui clicado");
-        const obj = {
+        const promise = axios.post(servidor, {
             login,
             senha
-        }
-        console.log(obj);
+        });
+        promise.then(response => {
+            navigate("/registros")
+        })
+        promise.catch(error => {
+            console.log("A requisição deu ruim");
+            zerarInputs();
+        })
+    }
+
+    function zerarInputs () {
+        setEntrar("Entrar")
+        setLogin("");
+        setSenha("");
     }
 
     return (
