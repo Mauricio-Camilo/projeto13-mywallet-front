@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ThreeDots } from 'react-loader-spinner';
 
+// SALVAR O NOME DO USUÁRIO NO LOCAL STORAGE, POIS ELE É NECESSÁRIO NA TELA DE REGISTROS
+
 function TelaLogin() {
 
-    const { setToken } = useContext(UserContext);
+    // const { setToken } = useContext(UserContext);
 
     const loading = <ThreeDots color="#FFFFFF" />;
 
@@ -30,9 +32,9 @@ function TelaLogin() {
         promise.then(response => {
             const {data} = response;
             console.log(data);
-            setToken(data.token);
+            // setToken(data.token);
             localStorage.setItem("token", data.token);
-            // navigate("/registros");
+            navigate("/registros");
 
         })
         promise.catch(error => {

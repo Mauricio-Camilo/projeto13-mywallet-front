@@ -2,8 +2,12 @@
     box-sizing: border-box;
     --cor-fundo: #8c11BE;
     --cor-botao: #A328D6;
-    --cor-vermelho: #C70000;
-    --cor-verde: #03AC00;
+    --cor-saida: #C70000;
+    --cor-entrada: #03AC00;
+    --cor-message: #868686;
+    --cor-data: #C6C6C6;
+    --cor-descrição: #000000;
+
 }
 
 body {

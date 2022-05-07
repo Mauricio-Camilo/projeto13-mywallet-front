@@ -9,6 +9,8 @@ import TelaSaida from "./TelaSaida";
 
 function App() {
 
+    // TESTAR SALVAR O USUARIO NO LOCAL STORAGE SEM CRIAR UM ESTADO AQUI
+
     const [token, setToken] = useState("");
 
     const context = { token, setToken };
@@ -26,7 +28,6 @@ function App() {
                     </Routes>
                 </BrowserRouter>
             </UserContext.Provider>
-
         </>
     )
 }

@@ -72,7 +72,6 @@ function TelaCadastro() {
                 </Inputs>
             </form>
             <Hiperlink onClick={() => navigate("/")}>Já tem uma conta? Entre agora!</Hiperlink>
-
         </Container>
     )
 }
