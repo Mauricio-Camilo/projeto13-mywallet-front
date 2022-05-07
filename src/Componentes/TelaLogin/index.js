@@ -34,6 +34,7 @@ function TelaLogin() {
             console.log(data);
             // setToken(data.token);
             localStorage.setItem("token", data.token);
+            localStorage.setItem("usuario", data.usuario);
             navigate("/registros");
 
         })

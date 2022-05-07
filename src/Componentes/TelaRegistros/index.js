@@ -1,11 +1,34 @@
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import InserirRegistro from "./InserirRegistro";
 
 function TelaRegistros() {
     const tokenLS = localStorage.getItem("token");
-    console.log("Token na pagina de registro: ", tokenLS);
+    const usuarioLS = localStorage.getItem("usuario");
+
+    const [usuarioDados, setUsuarioDados] = useState(""); 
+
+    const servidor = "http://localhost:5000/registros";
+
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${tokenLS}`
+        }
+    }
+
+    useEffect(() => {
+        const promise = axios.get(servidor, config);
+        promise.then(response => {
+            const { data } = response;
+            setUsuarioDados(data);
+            console.log(data);
+        });
+        promise.catch(err => console.log(err.response.statusText));
+    }, []);
+
 
     // RECEBER OS DADOS VINDO DO BACKEND NO LUGAR
     const dadosTeste = [
@@ -19,7 +42,7 @@ function TelaRegistros() {
     return (
         <>
             <Header>
-                <Title>Olá, Fulano</Title>
+                <Title>Olá,{usuarioLS}</Title>
                 <IconTop>
                     <ion-icon name="log-out-outline"></ion-icon>
                 </IconTop>
