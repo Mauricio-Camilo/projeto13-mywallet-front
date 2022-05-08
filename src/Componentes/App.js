@@ -12,8 +12,10 @@ function App() {
     // TESTAR SALVAR O USUARIO NO LOCAL STORAGE SEM CRIAR UM ESTADO AQUI
 
     const [token, setToken] = useState("");
+    const [saldo, setSaldo] = useState(0);
 
-    const context = { token, setToken };
+    const context = { token, setToken, saldo, setSaldo };
+
 
     return (
         <>

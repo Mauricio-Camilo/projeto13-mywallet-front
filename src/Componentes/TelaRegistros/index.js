@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import UserContext from "../contexts/UserContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -9,8 +10,10 @@ function TelaRegistros() {
     const tokenLS = localStorage.getItem("token");
     const usuarioLS = localStorage.getItem("usuario");
 
+    const { saldo, setSaldo } = useContext(UserContext);
+
     const [registros, setRegistros] = useState([]);
-    const [saldo, setSaldo] = useState(0);
+    const [positivo, setPositivo] = useState(true);
 
     let soma = 0;
 
@@ -27,20 +30,23 @@ function TelaRegistros() {
         promise.then(response => {
             const { data } = response;
             setRegistros(data);
-            calcularTotal();
-            console.log("Retorno do get", data);
+            calcularTotal(data);
         });
         promise.catch(err => console.log(err.response.statusText));
     }, []);
 
-    function calcularTotal() {
-        registros.forEach(registro => {
-            let { valor, status } = registro;
+    function calcularTotal(parametros) {
+        parametros.forEach(parametro => {
+            let { valor, status } = parametro;
             valor = parseFloat(valor);
-            if (status === "entrada") soma += valor;
+            if (status === "entrada") {
+                soma += valor;
+            }
             else soma -= valor;
         })
-        setSaldo(soma)
+        setSaldo(soma);
+        if (soma > 0) setPositivo(true);
+        else setPositivo(false)
     }
 
     const navigate = useNavigate();
@@ -52,27 +58,26 @@ function TelaRegistros() {
                     <ion-icon name="log-out-outline"></ion-icon>
                 </IconTop>
             </Header>
-            {/* <Container>
+            {registros.length === 0 ?
+                <Container>
                     <Message>
                         Não há registros de <br></br>entrada ou saida
                     </Message>
-            </Container> */}
-            <Container2>
-                {registros.map(registro => {
-                    const { data, descricao, valor, status } = registro;
-                    return (
-                        <InserirRegistro key={data} data={data}
-                            descricao={descricao} valor={valor} status={status} />
-                    )
-                })}
-                <Saldo>
-                    <p>SALDO</p>
-                    {saldo > 0?
-                    <Positivo>{saldo}</Positivo>:
-                    <Negativo>{saldo}</Negativo>
-                    }
-                </Saldo>
-            </Container2>
+                </Container> :
+                  <Container2>
+                  {registros.map(registro => {
+                      const { data, descricao, valor, status } = registro;
+                      return (
+                          <InserirRegistro key={data} data={data}
+                              descricao={descricao} valor={valor} status={status} />
+                      )
+                  })}
+                  <Saldo>
+                      <p>SALDO</p>
+                      <Valor status={positivo}>{saldo}</Valor>
+                  </Saldo>
+              </Container2>
+            }
             <Footer>
                 <SubContainer>
                     <IconFooter onClick={() => navigate("/entrada")}>
@@ -90,14 +95,23 @@ function TelaRegistros() {
         </>
     )
 }
+
+function corValor(status) {
+    if (status) return "var(--cor-entrada)"
+    else return "var(--cor-saida)"
+}
+
+const Valor = styled.span`
+    font-size: 17px;
+    font-weight: 400;
+    color: ${(props) => corValor(props.status)};
+`
 const UserData = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 0 12px;
     padding-top: 26px;
-
 `
-
 const Date = styled.span`
     color: var(--cor-data);
 `
@@ -105,16 +119,10 @@ const Description = styled.span`
     color: var(--cor-descrição);
     margin-left: 5px;
 `
-const Valor = styled.span`
-    color: var(--cor-entrada);
-`
-
-
 const Header = styled.div`
     display: flex;
     align-itens: center;
 `
-
 const Title = styled.h2`
     font-size: 26px;
     font-weight: 700;
@@ -122,7 +130,6 @@ const Title = styled.h2`
     margin-left: 24px;
     margin-top: 25px;
 `
-
 const IconTop = styled.button`
     font-size: 23px;
     color: white;
@@ -142,7 +149,6 @@ const Container = styled.div`
     margin-top: 26px;
     margin-left: 25px;
 `
-
 const Container2 = styled.div`
     width: 326px;
     min-height: 446px;
@@ -153,8 +159,6 @@ const Container2 = styled.div`
     padding-bottom: 20px;
     position: relative;
 `
-
-
 const Message = styled.div`
     font-size: 20px;
     color: var(--cor-message);
@@ -166,7 +170,6 @@ const Footer = styled.div`
     margin-top: 13px;
     margin-bottom: 16px;
     margin-left: 25px;
-
 `
 const SubContainer = styled.div`
     width: 155px;
@@ -180,8 +183,6 @@ const SubContainer = styled.div`
             margin-left: 10px;
         }
 `
-
-
 const IconFooter = styled.button`
     font-size: 23px;
     font-weight: bold;
@@ -190,7 +191,6 @@ const IconFooter = styled.button`
     border: 1px solid var(--cor-botao);
     margin-top: 10px;
 `
-
 const Saldo = styled.div`
     display: flex;
     justify-content: space-between;
@@ -201,21 +201,8 @@ const Saldo = styled.div`
         p {
             font-size: 17px;
             font-weight: 700;
-            color: var(--cor-descrição);
-            
+            color: var(--cor-descrição);   
         }
-`
-// MUDAR ESSA LÓGICA DEPOIS
-const Positivo = styled.span`
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--cor-entrada);
-`
-
-const Negativo = styled.span`
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--cor-saida);
 `
 
 export default TelaRegistros;
