@@ -1,8 +1,20 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function TelaSaida () {
+
+    const tokenLS = localStorage.getItem("token");
+    const usuarioLS = localStorage.getItem("usuario");
+
+    const servidor = "http://localhost:5000/saida";
+
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${tokenLS}`
+        }
+    }
     const [valorSaida, setValorSaida] = useState("");
     const [descriçãoSaida, setDescriçãoSaida] = useState("");
 
@@ -10,9 +22,20 @@ function TelaSaida () {
 
     function salvarSaida (event) {
         event.preventDefault();
-        console.log(valorSaida);
-        console.log(descriçãoSaida);
-        navigate("/registros");
+        const promise = axios.post(servidor,{
+            usuario: usuarioLS,
+            valor: valorSaida,
+            descricao: descriçãoSaida,
+            status: "saida"
+        }, config)
+        promise.then(response => {
+            const {data} = response;
+            console.log(data);
+            navigate("/registros");
+        });
+        promise.catch(error => {
+            alert("Falha no envio dos dados, por favor tente novamente");
+        })
     }
 
     return (

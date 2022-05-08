@@ -9,7 +9,10 @@ function TelaRegistros() {
     const tokenLS = localStorage.getItem("token");
     const usuarioLS = localStorage.getItem("usuario");
 
-    const [usuarioDados, setUsuarioDados] = useState(""); 
+    const [registros, setRegistros] = useState([]);
+    const [saldo, setSaldo] = useState(0);
+
+    let soma = 0;
 
     const servidor = "http://localhost:5000/registros";
 
@@ -23,20 +26,22 @@ function TelaRegistros() {
         const promise = axios.get(servidor, config);
         promise.then(response => {
             const { data } = response;
-            setUsuarioDados(data);
-            console.log(data);
+            setRegistros(data);
+            calcularTotal();
+            console.log("Retorno do get", data);
         });
         promise.catch(err => console.log(err.response.statusText));
     }, []);
 
-
-    // RECEBER OS DADOS VINDO DO BACKEND NO LUGAR
-    const dadosTeste = [
-        {data: "30/11", descrição: "almoço", valor: "39.90"},
-        {data: "29/11", descrição: "jantar", valor: "49.90"},
-        {data: "28/11", descrição: "compras", valor: "59.90"},
-        {data: "27/11", descrição: "emprestimo", valor: "29.90"},
-    ]
+    function calcularTotal() {
+        registros.forEach(registro => {
+            let { valor, status } = registro;
+            valor = parseFloat(valor);
+            if (status === "entrada") soma += valor;
+            else soma -= valor;
+        })
+        setSaldo(soma)
+    }
 
     const navigate = useNavigate();
     return (
@@ -53,13 +58,20 @@ function TelaRegistros() {
                     </Message>
             </Container> */}
             <Container2>
-                {dadosTeste.map(dado => {
-                    const {data, descrição, valor} = dado;
+                {registros.map(registro => {
+                    const { data, descricao, valor, status } = registro;
                     return (
-                        <InserirRegistro key={data} data={data} 
-                        descrição={descrição}  valor={valor}/>
+                        <InserirRegistro key={data} data={data}
+                            descricao={descricao} valor={valor} status={status} />
                     )
                 })}
+                <Saldo>
+                    <p>SALDO</p>
+                    {saldo > 0?
+                    <Positivo>{saldo}</Positivo>:
+                    <Negativo>{saldo}</Negativo>
+                    }
+                </Saldo>
             </Container2>
             <Footer>
                 <SubContainer>
@@ -133,11 +145,13 @@ const Container = styled.div`
 
 const Container2 = styled.div`
     width: 326px;
-    height: 446px;
+    min-height: 446px;
     border-radius: 5px;
     background-color: #FFFFFF;
     margin-top: 26px;
     margin-left: 25px;
+    padding-bottom: 20px;
+    position: relative;
 `
 
 
@@ -166,6 +180,8 @@ const SubContainer = styled.div`
             margin-left: 10px;
         }
 `
+
+
 const IconFooter = styled.button`
     font-size: 23px;
     font-weight: bold;
@@ -173,6 +189,33 @@ const IconFooter = styled.button`
     background-color: var(--cor-botao);
     border: 1px solid var(--cor-botao);
     margin-top: 10px;
+`
+
+const Saldo = styled.div`
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin: 0 10px;
+    margin-top: 200px;
+
+        p {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--cor-descrição);
+            
+        }
+`
+// MUDAR ESSA LÓGICA DEPOIS
+const Positivo = styled.span`
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--cor-entrada);
+`
+
+const Negativo = styled.span`
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--cor-saida);
 `
 
 export default TelaRegistros;

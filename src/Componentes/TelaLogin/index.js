@@ -31,7 +31,7 @@ function TelaLogin() {
         });
         promise.then(response => {
             const {data} = response;
-            console.log(data);
+            console.log("Resposta do login: ",data);
             // setToken(data.token);
             localStorage.setItem("token", data.token);
             localStorage.setItem("usuario", data.usuario);

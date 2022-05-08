@@ -1,17 +1,18 @@
 import styled from "styled-components";
 
 function InserirRegistro(props) {
-    const {data, descrição, valor} = props;
+    const {data, descricao, valor, status} = props;
     return (
         <UserData>
             <div>
                 <Date>{data}</Date>
-                <Description>{descrição}</Description>
+                <Description>{descricao}</Description>
             </div>
-            <Valor>{valor}</Valor>
+            {status === "entrada" ?
+            <Entrada>{valor}</Entrada> :
+            <Saida>{valor}</Saida> }
         </UserData>
     )
-
 }
 
 const UserData = styled.div`
@@ -27,7 +28,10 @@ const Description = styled.span`
     color: var(--cor-descrição);
     margin-left: 5px;
 `
-const Valor = styled.span`
+const Entrada = styled.span`
     color: var(--cor-entrada);
+`
+const Saida = styled.span`
+    color: var(--cor-saida);
 `
 export default InserirRegistro;

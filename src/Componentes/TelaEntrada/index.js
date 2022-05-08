@@ -1,9 +1,20 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 
 function TelaEntrada() {
+
+    const tokenLS = localStorage.getItem("token");
+    const usuarioLS = localStorage.getItem("usuario");
+
+    const servidor = "http://localhost:5000/entrada";
+
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${tokenLS}`
+        }
+    }
 
     const [valorEntrada, setValorEntrada] = useState("");
     const [descriçãoEntrada, setDescriçãoEntrada] = useState("");
@@ -12,20 +23,30 @@ function TelaEntrada() {
 
     function salvarEntrada (event) {
         event.preventDefault();
-        console.log(valorEntrada);
-        console.log(descriçãoEntrada);
-        navigate("/registros");
+        const promise = axios.post(servidor,{
+            usuario: usuarioLS,
+            valor: valorEntrada,
+            descricao: descriçãoEntrada,
+            status: "entrada"
+        }, config)
+        promise.then(response => {
+            const {data} = response;
+            console.log(data);
+            navigate("/registros");
+        });
+        promise.catch(error => {
+            alert("Falha no envio dos dados, por favor tente novamente");
+        })
     }
-
     return (
         <Container>
             <Title>Nova Entrada</Title>
             <form onSubmit={salvarEntrada}>
             <Inputs>
-                <Input type="text" placeholder="Valor" required
+                <Input type="text" placeholder="Valor" 
                     onChange={(e) => setValorEntrada(e.target.value)} value={valorEntrada}>
                 </Input>
-                <Input type="text" placeholder="Descrição" required
+                <Input type="text" placeholder="Descrição" 
                     onChange={(e) => setDescriçãoEntrada(e.target.value)} value={descriçãoEntrada}>
                 </Input>
                 <Button type="submit">Salvar entrada</Button>
