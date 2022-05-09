@@ -43,10 +43,10 @@ function TelaSaida () {
             <Title>Nova Saida</Title>
             <form onSubmit={salvarSaida}>
             <Inputs>
-                <Input type="text" placeholder="Valor" required
+                <Input type="text" placeholder="Valor" 
                     onChange={(e) => setValorSaida(e.target.value)} value={valorSaida}>
                 </Input>
-                <Input type="text" placeholder="Descrição" required
+                <Input type="text" placeholder="Descrição" 
                     onChange={(e) => setDescriçãoSaida(e.target.value)} value={descriçãoSaida}>
                 </Input>
                 <Button type="submit">Salvar saída</Button>

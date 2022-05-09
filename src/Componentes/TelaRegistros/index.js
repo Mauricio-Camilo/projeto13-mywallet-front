@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import UserContext from "../contexts/UserContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,15 +6,14 @@ import axios from "axios";
 import InserirRegistro from "./InserirRegistro";
 
 function TelaRegistros() {
+
     const tokenLS = localStorage.getItem("token");
     const usuarioLS = localStorage.getItem("usuario");
 
-    const { saldo, setSaldo } = useContext(UserContext);
-
     const [registros, setRegistros] = useState([]);
-    const [positivo, setPositivo] = useState(true);
+    const [saldo, setSaldo] = useState(0);
 
-    let soma = 0;
+    let soma = 0; // Tentar não usar variável global
 
     const servidor = "http://localhost:5000/registros";
 
@@ -39,14 +37,15 @@ function TelaRegistros() {
         parametros.forEach(parametro => {
             let { valor, status } = parametro;
             valor = parseFloat(valor);
-            if (status === "entrada") {
-                soma += valor;
-            }
+            if (status === "entrada") soma += valor;
             else soma -= valor;
         })
         setSaldo(soma);
-        if (soma > 0) setPositivo(true);
-        else setPositivo(false)
+    }
+
+    function fazerLogout () {
+        const resposta = prompt(`Tem certeza que deseja sair? Se sim, digite "y"`)
+        if (resposta === "y") navigate("/")
     }
 
     const navigate = useNavigate();
@@ -55,7 +54,7 @@ function TelaRegistros() {
             <Header>
                 <Title>Olá,{usuarioLS}</Title>
                 <IconTop>
-                    <ion-icon name="log-out-outline"></ion-icon>
+                    <ion-icon onClick={() => fazerLogout()} name="log-out-outline"></ion-icon>
                 </IconTop>
             </Header>
             {registros.length === 0 ?
@@ -68,13 +67,13 @@ function TelaRegistros() {
                   {registros.map(registro => {
                       const { data, descricao, valor, status } = registro;
                       return (
-                          <InserirRegistro key={data} data={data}
+                          <InserirRegistro key={descricao} data={data}
                               descricao={descricao} valor={valor} status={status} />
                       )
                   })}
                   <Saldo>
                       <p>SALDO</p>
-                      <Valor status={positivo}>{saldo}</Valor>
+                      <Valor saldo={saldo}>{saldo}</Valor>
                   </Saldo>
               </Container2>
             }
@@ -96,15 +95,15 @@ function TelaRegistros() {
     )
 }
 
-function corValor(status) {
-    if (status) return "var(--cor-entrada)"
+function corValor(saldo) {
+    if (saldo > 0) return "var(--cor-entrada)"
     else return "var(--cor-saida)"
 }
 
 const Valor = styled.span`
     font-size: 17px;
     font-weight: 400;
-    color: ${(props) => corValor(props.status)};
+    color: ${(props) => corValor(props.saldo)};
 `
 const UserData = styled.div`
     display: flex;

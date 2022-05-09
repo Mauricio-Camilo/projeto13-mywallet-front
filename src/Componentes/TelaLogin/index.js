@@ -55,10 +55,10 @@ function TelaLogin() {
             <Title>MyWallet</Title>
             <form onSubmit={fazerLogin}>
                 <Inputs>
-                    <Input type="text" placeholder="E-mail" required
+                    <Input type="text" placeholder="E-mail" 
                         onChange={(e) => setLogin(e.target.value)} value={login}>
                     </Input>
-                    <Input type="password" placeholder="Senha" required
+                    <Input type="password" placeholder="Senha" 
                         onChange={(e) => setSenha(e.target.value)} value={senha}>
                     </Input>
                     <Login type="submit">{entrar}</Login>
