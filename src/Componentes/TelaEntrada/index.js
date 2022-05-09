@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -27,7 +27,7 @@ function TelaEntrada() {
             usuario: usuarioLS,
             valor: valorEntrada,
             descricao: descriçãoEntrada,
-            status: "entrada"
+            status:"entrada"
         }, config)
         promise.then(response => {
             const {data} = response;
@@ -43,10 +43,10 @@ function TelaEntrada() {
             <Title>Nova Entrada</Title>
             <form onSubmit={salvarEntrada}>
             <Inputs>
-                <Input type="text" placeholder="Valor" 
+                <Input type="text" placeholder="Valor" required
                     onChange={(e) => setValorEntrada(e.target.value)} value={valorEntrada}>
                 </Input>
-                <Input type="text" placeholder="Descrição" 
+                <Input type="text" placeholder="Descrição" required
                     onChange={(e) => setDescriçãoEntrada(e.target.value)} value={descriçãoEntrada}>
                 </Input>
                 <Button type="submit">Salvar entrada</Button>

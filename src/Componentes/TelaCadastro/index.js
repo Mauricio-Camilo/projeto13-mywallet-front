@@ -4,20 +4,16 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ThreeDots } from 'react-loader-spinner';
 
-
 function TelaCadastro() {
 
     const loading = <ThreeDots color="#FFFFFF" />;
 
-    // Estados para guardar infos do usuário
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [senha2, setSenha2] = useState("");
 
-    // Estado usado para colocar a animação no login e ativar a mudança
     const [cadastrar, setCadastrar] = useState("Cadastrar");
-    // const [selecionado, setSelecionado] = useState(false)
 
     const servidor = "http://localhost:5000/cadastro";
 
@@ -36,7 +32,7 @@ function TelaCadastro() {
         promise.then(response => {
             navigate("/");
         })
-        promise.catch(response => {
+        promise.catch(error => {
             console.log("A requisição deu ruim");
             zerarInputs();
         })
@@ -58,13 +54,13 @@ function TelaCadastro() {
                     <Input type="text" placeholder="Nome" required
                         onChange={(e) => setNome(e.target.value)} value={nome}>
                     </Input>
-                    <Input type="text" placeholder="E-mail" 
+                    <Input type="text" placeholder="E-mail" required
                         onChange={(e) => setEmail(e.target.value)} value={email}>
                     </Input>
-                    <Input type="password" placeholder="Senha" 
+                    <Input type="password" placeholder="Senha" required
                         onChange={(e) => setSenha(e.target.value)} value={senha}>
                     </Input>
-                    <Input type="password" placeholder="Confirme a senha" 
+                    <Input type="password" placeholder="Confirme a senha" required
                         onChange={(e) => setSenha2(e.target.value)} value={senha2}>
                     </Input>
                     <SignUp type="submit">
@@ -79,7 +75,6 @@ function TelaCadastro() {
 const Container = styled.div`
     width: 375px;
 `
-
 const Title = styled.h1`
     font-family: 'Saira Stencil One', cursive; 
     font-size: 32px;
@@ -88,7 +83,6 @@ const Title = styled.h1`
     margin-top: 95px;
     margin-bottom: 24px;
 `
-
 const Inputs = styled.div`
     display: flex;
     flex-direction: column;

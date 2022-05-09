@@ -1,15 +1,10 @@
-import { useState, useContext } from "react";
-import UserContext from "../contexts/UserContext";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ThreeDots } from 'react-loader-spinner';
 
-// SALVAR O NOME DO USUÁRIO NO LOCAL STORAGE, POIS ELE É NECESSÁRIO NA TELA DE REGISTROS
-
 function TelaLogin() {
-
-    // const { setToken } = useContext(UserContext);
 
     const loading = <ThreeDots color="#FFFFFF" />;
 
@@ -32,7 +27,6 @@ function TelaLogin() {
         promise.then(response => {
             const {data} = response;
             console.log("Resposta do login: ",data);
-            // setToken(data.token);
             localStorage.setItem("token", data.token);
             localStorage.setItem("usuario", data.usuario);
             navigate("/registros");
@@ -72,7 +66,6 @@ function TelaLogin() {
 const Container = styled.div`
     width: 375px;
 `
-
 const Title = styled.h1`
     font-family: 'Saira Stencil One', cursive; 
     font-size: 32px;
@@ -87,14 +80,12 @@ const Inputs = styled.div`
     gap: 13px;
     padding-left: 25px;
 `
-
 const Input = styled.input`
         width: 326px;
         height: 58px;
         border-radius: 5px;
         padding-left: 15px;
 `
-
 const Login = styled.button`
     font-size: 20px;
     font-weight: 700;
@@ -114,5 +105,4 @@ const Hiperlink = styled.p`
     color: #FFFFFF;
     margin-top: 36px;
 `
-
 export default TelaLogin;

@@ -1,14 +1,8 @@
-import { useState, useContext } from "react";
-import UserContext from "../contexts/UserContext";
 import styled from "styled-components";
 
 function InserirRegistro(props) {
-    const {data, descricao, valor, status} = props;
 
-    // const { saldo, setSaldo } = useContext(UserContext);
-
-    // setSaldo(saldo+valor);
-    // console.log(saldo);
+    const { data, descricao, valor, status } = props;
 
     return (
         <UserData>
@@ -21,7 +15,7 @@ function InserirRegistro(props) {
     )
 }
 
-function corRegistro (status) {
+function corRegistro(status) {
     if (status === "entrada") return "var(--cor-entrada)";
     else return "var(--cor-saida)"
 }
@@ -39,7 +33,7 @@ const Description = styled.span`
     color: var(--cor-descrição);
     margin-left: 5px;
 `
-const Registro = styled.span`
+const Registro = styled.p`
     color: ${(props) => corRegistro(props.status)}
 `
 export default InserirRegistro;

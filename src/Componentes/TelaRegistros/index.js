@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,7 +13,7 @@ function TelaRegistros() {
     const [registros, setRegistros] = useState([]);
     const [saldo, setSaldo] = useState(0);
 
-    let soma = 0; // Tentar não usar variável global
+    let soma = 0;
 
     const servidor = "http://localhost:5000/registros";
 
@@ -44,8 +44,9 @@ function TelaRegistros() {
     }
 
     function fazerLogout () {
-        const resposta = prompt(`Tem certeza que deseja sair? Se sim, digite "y"`)
-        if (resposta === "y") navigate("/")
+        const mensagem = "Deseja sair da aplicação?";
+        const resultado = window.confirm(mensagem)
+        if (resultado) navigate("/")
     }
 
     const navigate = useNavigate();
@@ -104,19 +105,6 @@ const Valor = styled.span`
     font-size: 17px;
     font-weight: 400;
     color: ${(props) => corValor(props.saldo)};
-`
-const UserData = styled.div`
-    display: flex;
-    justify-content: space-between;
-    padding: 0 12px;
-    padding-top: 26px;
-`
-const Date = styled.span`
-    color: var(--cor-data);
-`
-const Description = styled.span`
-    color: var(--cor-descrição);
-    margin-left: 5px;
 `
 const Header = styled.div`
     display: flex;
