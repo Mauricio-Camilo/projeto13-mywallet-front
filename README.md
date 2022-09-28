@@ -4,7 +4,7 @@ An easy way to control the expenses, which will help the users to save more mone
 
 ## About
 
-This is an web application with which lots of people can manage their own expenses. Below are the implemented features:
+This is an web application which lots of people can manage their own expenses. Below are the implemented features:
 
 - Sign Up
 - Login
